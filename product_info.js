@@ -20,15 +20,15 @@ document.getElementsByTagName("head")[0].appendChild(styleTable);
  * Cria um loader na pagina
  */
 let loading = document.createElement('div');
-    loading.setAttribute("id", "elshaddai-loading");
-    loading.style.position = 'fixed';
-    loading.style.top = '50%';
-    loading.style.left = '50%';
-    loading.style.width = '200px';
-    loading.style.height = '200px';
-    loading.style.margin = '-100px 0 0 -100px';
-    loading.style.display = 'none';
-    loading.innerHTML = "<img src='https://github.com/felipefcampelo/elshaddai-bling/raw/master/loading.gif'>";
+loading.setAttribute("id", "elshaddai-loading");
+loading.style.position = 'fixed';
+loading.style.top = '50%';
+loading.style.left = '50%';
+loading.style.width = '200px';
+loading.style.height = '200px';
+loading.style.margin = '-100px 0 0 -100px';
+loading.style.display = 'none';
+loading.innerHTML = "<img src='https://github.com/elshaddaicode/bling/blob/main/loading.gif?raw=true'>";
 document.body.append(loading);
 
 /**
@@ -53,16 +53,9 @@ function buscaPrecoPromocional(codigoProduto) {
             "xajaxargs[]": codigoProduto
         }
     }).responseText;
-    
+
     const lojasJson = JSON.parse(lojas);
-    infoLivro["precoPromocional"] = lojasJson.vinculosLojas[2].precoPromocional;
-    
-    // for (let i = 0; i <= lojasJson.length - 1; i++) {
-    //     if (lojasJson[i].nomeLoja == 'Livraria Física El Shaddai') {
-    //         const precoPromocional = lojasJson[i].precoPromocional;
-    //         infoLivro["precoPromocional"] = precoPromocional;
-    //     }
-    // }
+    infoLivro["precoPromocional"] = lojasJson.vinculosLojas[3].precoPromocional;
 }
 
 /**
@@ -85,31 +78,31 @@ function buscaEstoque(codigoProduto) {
             ],
             "xajaxs": $("#sessid").val()
         },
-        success: function(data) {
+        success: function (data) {
             const saldosPorDeposito = data.totais.saldosPorDeposito;
-            
+
             for (let i = 0; i <= saldosPorDeposito.length - 1; i++) {
                 // Estoque Geral
                 if (saldosPorDeposito[i].descricao == 'Estoque Geral') {
                     let estoqueGeral = String(saldosPorDeposito[i].saldo);
-                    
+
                     if (estoqueGeral.indexOf(".") >= 0) {
                         estoqueGeral = estoqueGeral.split(".");
                         estoqueGeral = estoqueGeral[0];
                     }
-                    
+
                     infoLivro['estoque_geral'] = estoqueGeral;
                 }
-                
+
                 // Loja Física
                 if (saldosPorDeposito[i].descricao == 'Loja Física') {
                     let estoqueLojaFisica = String(saldosPorDeposito[i].saldo);
-                    
+
                     if (estoqueLojaFisica.indexOf(".") >= 0) {
                         estoqueLojaFisica = estoqueLojaFisica.split(".");
                         estoqueLojaFisica = estoqueLojaFisica[0];
                     }
-                    
+
                     infoLivro['estoque_loja_fisica'] = estoqueLojaFisica;
                 }
             }
@@ -123,7 +116,7 @@ function buscaEstoque(codigoProduto) {
  */
 function getProdutoData(codigoProduto) {
     $("#elshaddai-loading").show();
-    
+
     const xmldata = $.ajax({
         url: "https://www.bling.com.br/services/produtos.server.php?f=obterProduto",
         method: "POST",
@@ -139,36 +132,36 @@ function getProdutoData(codigoProduto) {
 
     const parser = new DOMParser();
     const xml = parser.parseFromString(xmldata, "text/xml").documentElement;
-            
+
     $(xml).find("cmd").each(function () {
         if ($(this).attr('t') == 'nome') {
             infoLivro["nome"] = $(this).text();
         }
-        
+
         if ($(this).attr('t') == 'codigo') {
             infoLivro["codigo"] = $(this).text();
         }
-        
+
         if ($(this).attr('t') == 'preco') {
             infoLivro["preco"] = $(this).text();
         }
-        
+
         if ($(this).attr('t') == 'imagemURL') {
             const jsonDataImg = JSON.parse($(this).text());
             infoLivro["imagem"] = jsonDataImg['imagens'][0];
         }
     });
-    
+
     // Preco Promocional
     buscaPrecoPromocional(codigoProduto);
-    
+
     // Percentual de desconto
     let precoFormatado = infoLivro['preco'].replace(".", "");
-        precoFormatado = precoFormatado.replace(",", ".");
-    
+    precoFormatado = precoFormatado.replace(",", ".");
+
     let precoPromocionalFormatado = infoLivro["precoPromocional"].replace(".", "");
-        precoPromocionalFormatado = precoPromocionalFormatado.replace(",", ".");
-    
+    precoPromocionalFormatado = precoPromocionalFormatado.replace(",", ".");
+
     if (precoPromocionalFormatado == '0.00') {
         const desconto = "-";
         infoLivro["desconto"] = desconto;
@@ -176,19 +169,19 @@ function getProdutoData(codigoProduto) {
         const desconto = 100 - (parseFloat(precoPromocionalFormatado) * 100) / parseFloat(precoFormatado);
         infoLivro["desconto"] = Math.round(desconto);
     }
-    
+
     // Estoque
     buscaEstoque(codigoProduto);
-    
+
     // Coloca os dados no modal e exibe
     // Titulo
     $("#info-modal .modal-title").html('');
     $("#info-modal .modal-title").html(infoLivro["nome"]);
-    
+
     // Imagem
     $("#info-modal .livro-imagem").html('');
     $("#info-modal .livro-imagem").html("<img src='" + infoLivro["imagem"] + "' width='100%'>");
-    
+
     // Info
     $("#info-modal .livro-info").html('');
     $("#info-modal .livro-info").html(`
@@ -235,11 +228,11 @@ function getProdutoData(codigoProduto) {
 /**
  * Function que cria os botões de +INFO em cada produto
  */
-createButtons = function() {
-    $(".context-menu-item .btn-group").each(function() {
+createButtons = function () {
+    $(".context-menu-item .btn-group").each(function () {
         // Product ID
         const produtoId = $(this).parent().parent().attr("id");
-        
+
         if (produtoId != "" && produtoId != undefined) {
             $(this).append(`
                 <button id="btn-details-${produtoId}"
@@ -296,13 +289,13 @@ createButtons();
 /**
  * Function que fica verificando se houve alguma requisicao AJAX para recarregar os botoes
  */
-(function() {
+(function () {
     var proxied = window.XMLHttpRequest.prototype.send;
 
-    window.XMLHttpRequest.prototype.send = function() {
+    window.XMLHttpRequest.prototype.send = function () {
         var pointer = this;
 
-        var intervalId = window.setInterval(function() {
+        var intervalId = window.setInterval(function () {
             if (pointer.readyState != 4) {
                 return;
             }
@@ -320,11 +313,9 @@ createButtons();
 
 /**
  * Function para detectar quando a pesquisa acontece
- */ 
+ */
 setTimeout(function () {
     $("#pesquisa-mini").on("keydown", function (event) {
-        //console.log("Pesquisa realizada apertando Enter");
-
         if (event.keyCode === 13) {
             event.preventDefault(); // Previne a ação padrão (se houver)
             setTimeout(function () {
@@ -334,10 +325,15 @@ setTimeout(function () {
     });
 
     $("#btn-mini-search").on("click", function () {
-        //console.log("Pesquisa realizada clicando na lupa");
-
         setTimeout(function () {
             createButtons();
         }, 1000);
     });
+
+    $("#search-left-area #filter-button-area button").on("click", function () {
+        setTimeout(function () {
+            createButtons();
+        }, 1000);
+    });
+
 }, 1000);

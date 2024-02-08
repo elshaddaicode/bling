@@ -17,16 +17,16 @@ document.getElementsByTagName("head")[0].appendChild(styleTable);
  * Cria um loader na pagina
  */
 let loading = document.createElement('div');
-    loading.setAttribute("id", "elshaddai-loading");
-    loading.style.position = 'fixed';
-    loading.style.top = '50%';
-    loading.style.left = '50%';
-    loading.style.width = '200px';
-    loading.style.height = '200px';
-    loading.style.margin = '-100px 0 0 -100px';
-    loading.style.display = 'none';
-    loading.style.zIndex = '9999';
-    loading.innerHTML = "<img src='https://github.com/felipefcampelo/elshaddai-bling/raw/master/loading.gif'>";
+loading.setAttribute("id", "elshaddai-loading");
+loading.style.position = 'fixed';
+loading.style.top = '50%';
+loading.style.left = '50%';
+loading.style.width = '200px';
+loading.style.height = '200px';
+loading.style.margin = '-100px 0 0 -100px';
+loading.style.display = 'none';
+loading.style.zIndex = '9999';
+loading.innerHTML = "<img src='https://github.com/elshaddaicode/bling/blob/main/loading.gif?raw=true'>";
 document.body.append(loading);
 
 /**
@@ -38,7 +38,7 @@ let infoLivro = [];
  * Buscar preco promocional do produto
  * @param {string} codigoProduto 
  */
- function buscaPrecoPromocional(codigoProduto) {
+function buscaPrecoPromocional(codigoProduto) {
     const lojas = $.ajax({
         url: "https://www.bling.com.br/services/produtos.server.php?f=obterVinculoProdutosMultilojas",
         method: "POST",
@@ -51,10 +51,10 @@ let infoLivro = [];
             "xajaxargs[]": codigoProduto
         }
     }).responseText;
-    
+
     const lojasJson = JSON.parse(lojas);
     infoLivro["precoPromocional"] = lojasJson.vinculosLojas[2].precoPromocional;
-    
+
     // for (let i = 0; i <= lojasJson.length - 1; i++) {
     //     if (lojasJson[i].nomeLoja == 'Livraria Física El Shaddai') {
     //         const precoPromocional = lojasJson[i].precoPromocional;
@@ -83,31 +83,31 @@ function buscaEstoque(codigoProduto) {
             ],
             "xajaxs": $("#sessid").val()
         },
-        success: function(data) {
+        success: function (data) {
             const saldosPorDeposito = data.totais.saldosPorDeposito;
-            
+
             for (let i = 0; i <= saldosPorDeposito.length - 1; i++) {
                 // Estoque Geral
                 if (saldosPorDeposito[i].descricao == 'Estoque Geral') {
                     let estoqueGeral = String(saldosPorDeposito[i].saldo);
-                    
+
                     if (estoqueGeral.indexOf(".") >= 0) {
                         estoqueGeral = estoqueGeral.split(".");
                         estoqueGeral = estoqueGeral[0];
                     }
-                    
+
                     infoLivro['estoque_geral'] = estoqueGeral;
                 }
-                
+
                 // Loja Física
                 if (saldosPorDeposito[i].descricao == 'Loja Física') {
                     let estoqueLojaFisica = String(saldosPorDeposito[i].saldo);
-                    
+
                     if (estoqueLojaFisica.indexOf(".") >= 0) {
                         estoqueLojaFisica = estoqueLojaFisica.split(".");
                         estoqueLojaFisica = estoqueLojaFisica[0];
                     }
-                    
+
                     infoLivro['estoque_loja_fisica'] = estoqueLojaFisica;
                 }
             }
@@ -119,9 +119,9 @@ function buscaEstoque(codigoProduto) {
  * Busca os dados do produto e monta o modal de informacoes
  * @param {string} codigoProduto 
  */
- function getProdutoData(codigoProduto) {
+function getProdutoData(codigoProduto) {
     $("#elshaddai-loading").show();
-    
+
     const xmldata = $.ajax({
         url: "https://www.bling.com.br/services/produtos.server.php?f=obterProduto",
         method: "POST",
@@ -137,36 +137,36 @@ function buscaEstoque(codigoProduto) {
 
     const parser = new DOMParser();
     const xml = parser.parseFromString(xmldata, "text/xml").documentElement;
-            
+
     $(xml).find("cmd").each(function () {
         if ($(this).attr('t') == 'nome') {
             infoLivro["nome"] = $(this).text();
         }
-        
+
         if ($(this).attr('t') == 'codigo') {
             infoLivro["codigo"] = $(this).text();
         }
-        
+
         if ($(this).attr('t') == 'preco') {
             infoLivro["preco"] = $(this).text();
         }
-        
+
         if ($(this).attr('t') == 'imagemURL') {
             const jsonDataImg = JSON.parse($(this).text());
             infoLivro["imagem"] = jsonDataImg['imagens'][0];
         }
     });
-    
+
     // Preco Promocional
     buscaPrecoPromocional(codigoProduto);
-    
+
     // Percentual de desconto
     let precoFormatado = infoLivro['preco'].replace(".", "");
-        precoFormatado = precoFormatado.replace(",", ".");
-    
+    precoFormatado = precoFormatado.replace(",", ".");
+
     let precoPromocionalFormatado = infoLivro["precoPromocional"].replace(".", "");
-        precoPromocionalFormatado = precoPromocionalFormatado.replace(",", ".");
-    
+    precoPromocionalFormatado = precoPromocionalFormatado.replace(",", ".");
+
     if (precoPromocionalFormatado == '0.00') {
         const desconto = "-";
         infoLivro["desconto"] = desconto;
@@ -174,19 +174,19 @@ function buscaEstoque(codigoProduto) {
         const desconto = 100 - (parseFloat(precoPromocionalFormatado) * 100) / parseFloat(precoFormatado);
         infoLivro["desconto"] = Math.round(desconto);
     }
-    
+
     // Estoque
     buscaEstoque(codigoProduto);
-    
+
     // Coloca os dados no modal e exibe
     // Titulo
     $("#info-modal .modal-title").html('');
     $("#info-modal .modal-title").html(infoLivro["nome"]);
-    
+
     // Imagem
     $("#info-modal .livro-imagem").html('');
     $("#info-modal .livro-imagem").html("<img src='" + infoLivro["imagem"] + "' width='100%'>");
-    
+
     // Info
     $("#info-modal .livro-info").html('');
     $("#info-modal .livro-info").html(`
@@ -288,9 +288,9 @@ function createButton(codigoProduto) {
     $.ajax({
         url: "https://www.bling.com.br/services/produtos.lookup.php?apenasVenda=S&term=" + codigoProduto + "&type=CODIGO",
         method: "GET",
-        success: function(response) {
+        success: function (response) {
             const data = jQuery.parseJSON(response);
-            const produtoId = data[0].id; 
+            const produtoId = data[0].id;
 
             $("#nome_produto").after(`
                 <button id="btn-details-` + produtoId + `"
@@ -312,13 +312,13 @@ function createButton(codigoProduto) {
  * @param {string} codigoProduto 
  */
 function updateButton(codigoProduto) {
-	$.ajax({
-		url: "https://www.bling.com.br/services/produtos.lookup.php?apenasVenda=S&term=" + codigoProduto + "&type=CODIGO",
+    $.ajax({
+        url: "https://www.bling.com.br/services/produtos.lookup.php?apenasVenda=S&term=" + codigoProduto + "&type=CODIGO",
         method: "GET",
-        success: function(response) {
-	        const data = jQuery.parseJSON(response);
-    	    const produtoId = data[0].id;
-        	            
+        success: function (response) {
+            const data = jQuery.parseJSON(response);
+            const produtoId = data[0].id;
+
             $(".info-button").attr("id", "btn-details-" + codigoProduto);
             $(".info-button").attr("onclick", "getProdutoData(" + produtoId + ");");
             $(".info-button").attr("data-codigo", codigoProduto);
@@ -330,22 +330,22 @@ function updateButton(codigoProduto) {
  * Executa as functions para criar ou atualizar o botao
  */
 setInterval(function () {
-	const nomeProdutoElement = $("#nome_produto").html();
+    const nomeProdutoElement = $("#nome_produto").html();
     const infoButtonElementLength = $(".info-button").length;
-    
+
     if (nomeProdutoElement != undefined && nomeProdutoElement != "") {
-    	const codigoProduto = $("#nome_produto").attr("attr-codigo");
+        const codigoProduto = $("#nome_produto").attr("attr-codigo");
 
         if (infoButtonElementLength == 0) {
             createButton(codigoProduto);
         } else {
             const codigoProdutoAtual = $(".info-button").attr("data-codigo");
-            
+
             if (codigoProduto != codigoProdutoAtual) {
                 updateButton(codigoProduto)
             }
         }
     } else {
-  		$(".info-button").remove();
+        $(".info-button").remove();
     }
 }, 500);
