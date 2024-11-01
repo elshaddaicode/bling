@@ -228,24 +228,24 @@ function getProdutoData(codigoProduto) {
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
     `)
 
-    /*
-        Função que copia as informações do produto para a área de transferência.
-    */
-    function copiarHtmlFormatado(html = infosProdutoTable) {
-        const blob = new Blob([html], { type: "text/html" });
-        const clipboardItem = new ClipboardItem({ "text/html": blob });
-        navigator.clipboard.write([clipboardItem]).then(() => {
-            console.log(clipboardItem)
-            console.log("Texto formatado copiado para a área de transferência!");
-        }).catch(err => {
-            console.error("Erro ao copiar texto formatado: ", err);
-        });
-    }
-
     setTimeout(function () {
         $("#elshaddai-loading").hide();
         $("#info-modal").modal("show");
     }, 1000);
+}
+
+/*
+    Função que copia as informações do produto para a área de transferência.
+*/
+function copiarHtmlFormatado(html = infosProdutoTable) {
+    const blob = new Blob([html], { type: "text/html" });
+    const clipboardItem = new ClipboardItem({ "text/html": blob });
+    navigator.clipboard.write([clipboardItem]).then(() => {
+        console.log(clipboardItem)
+        console.log("Texto formatado copiado para a área de transferência!");
+    }).catch(err => {
+        console.error("Erro ao copiar texto formatado: ", err);
+    });
 }
 
 /**
