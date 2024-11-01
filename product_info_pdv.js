@@ -300,11 +300,11 @@ function copiarTextoSimples() {
         console.log('Clipboard não suportado!')
         return
     }
-    navigator.clipboard.writeText(dadosProdutoClipboard).then(() => {
-        console.log("Texto simples copiado para a área de transferência!");
-    }).catch(err => {
-        console.error("Erro ao copiar texto simples: ", err);
-    });
+    navigator.clipboard.writeText(dadosProdutoClipboard)
+        .then(() => {})
+        .catch(err => {
+            console.error("Erro ao copiar texto simples: ", err);
+        });
 }
 
 /**
