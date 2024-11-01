@@ -221,12 +221,7 @@ function getProdutoData(codigoProduto) {
         </table>
     `
 
-    dadosProdutoClipboard = `
-    Código: ${infoLivro["codigo"].trim()}
-    Nome: ${infoLivro["nome"].trim()}
-    De: ${infoLivro["preco"].trim()}
-    Por: ${infoLivro["precoPromocional"].trim()}
-    Desconto: ${infoLivro["desconto"]}%
+    dadosProdutoClipboard = `Código: ${infoLivro["codigo"].trim()}Nome: ${infoLivro["nome"].trim()}De: ${infoLivro["preco"].trim()}Por: ${infoLivro["precoPromocional"].trim()}Desconto: ${infoLivro["desconto"]}%
     `.trim().replaceAll(/\t/gmi, "")
 
     console.log(dadosProdutoClipboard)
