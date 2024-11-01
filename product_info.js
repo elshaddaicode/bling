@@ -226,7 +226,8 @@ function getProdutoData(codigoProduto) {
         Nome: ${infoLivro["nome"].trim()}
         De: ${infoLivro["preco"].trim()}
         Por: ${infoLivro["precoPromocional"].trim()}
-    `.trim()
+        Desconto: ${infoLivro["desconto"].trim()}%
+    `.trim().replaceAll(/\t/gmi, "")
 
     // Info
     $("#info-modal .livro-info").html('');
