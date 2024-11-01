@@ -273,6 +273,9 @@ createButtons = function () {
                         </div>
                     </div>
                     <div class="modal-footer">
+                        <button type="button" class="btn btn-primary call-to-action" data-dismiss="modal">
+                            Copiar Informações
+                        </button>
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
                     </div>
                 </div>

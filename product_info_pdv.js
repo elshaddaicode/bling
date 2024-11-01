@@ -267,6 +267,9 @@ function createModal() {
                     	 style="border-top: 1px solid #e5e5e5 !important; 
                          		position: unset !important;
                                 min-width: 100% !important;">
+                        <button type="button" class="btn btn-primary call-to-action" data-dismiss="modal">
+                            Copiar Informações
+                        </button>        
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
                     </div>
                 </div>
