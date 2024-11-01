@@ -257,7 +257,7 @@ function copiarHtmlFormatado() {
         console.log('Clipboard não suportado!')
         return;
     }
-    navigator.clipboard.write(dadosProdutoClipboard).then(() => {
+    navigator.clipboard.writeText(dadosProdutoClipboard).then(() => {
         console.log("Texto formatado copiado para a área de transferência!");
     }).catch(err => {
         console.error("Erro ao copiar texto formatado: ", err);
