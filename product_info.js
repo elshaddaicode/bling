@@ -222,7 +222,7 @@ function getProdutoData(codigoProduto) {
     $("#info-modal .livro-info").html(infosProdutoTable);
 
     $("#info-modal .modal-footer").html(`
-        <button type="button" onclick="copiarHtmlFormatado()" class="btn btn-primary call-to-action" data-dismiss="modal">
+        <button type="button" onclick="${() => copiarHtmlFormatado()}" class="btn btn-primary call-to-action" data-dismiss="modal">
             Copiar Informações
         </button>    
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
