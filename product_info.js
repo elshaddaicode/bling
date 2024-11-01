@@ -182,9 +182,7 @@ function getProdutoData(codigoProduto) {
     $("#info-modal .livro-imagem").html('');
     $("#info-modal .livro-imagem").html("<img src='" + infoLivro["imagem"] + "' width='100%'>");
 
-    // Info
-    $("#info-modal .livro-info").html('');
-    $("#info-modal .livro-info").html(`
+    const infosProdutoTable = `
         <table class="table table-bordered table-striped table-livro-info">
             <tbody>
                 <tr>
@@ -217,13 +215,37 @@ function getProdutoData(codigoProduto) {
                 </tr>
             </tbody>
         </table>
-    `);
+    `
+
+    // Info
+    $("#info-modal .livro-info").html('');
+    $("#info-modal .livro-info").html(infosProdutoTable);
+
+    $("#info-modal .modal-footer").html(`
+        <button type="button" onclick="copiarHtmlFormatado(${infosProdutoTable})" class="btn btn-primary call-to-action" data-dismiss="modal">
+            Copiar Informações
+        </button>    
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+    `)
 
     setTimeout(function () {
         $("#elshaddai-loading").hide();
         $("#info-modal").modal("show");
     }, 1000);
 }
+
+/*
+    Função que copia as informações do produto para a área de transferência.
+*/
+function copiarHtmlFormatado(html) {
+    const blob = new Blob([html], { type: "text/html" });
+    const clipboardItem = new ClipboardItem({ "text/html": blob });
+    navigator.clipboard.write([clipboardItem]).then(() => {
+      alert("Texto formatado copiado para a área de transferência!");
+    }).catch(err => {
+      console.error("Erro ao copiar texto formatado: ", err);
+    });
+  }
 
 /**
  * Function que cria os botões de +INFO em cada produto
@@ -273,10 +295,6 @@ createButtons = function () {
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-primary call-to-action" data-dismiss="modal">
-                            Copiar Informações
-                        </button>
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
                     </div>
                 </div>
             </div>
