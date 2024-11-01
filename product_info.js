@@ -242,7 +242,7 @@ function getProdutoData(codigoProduto) {
 function copiarHtmlFormatado() {
     console.log("infosProdutoTable " + infosProdutoTable)
     const blob = new Blob([infosProdutoTable], { type: "text/html" });
-    const clipboardItem = new ClipboardItem({ "text/html": blob });
+    const clipboardItem = new window.ClipboardItem({ "text/html": blob });
     console.log("chamou a fn " + new Date().getTime())
     navigator.clipboard.write([clipboardItem]).then(() => {
         console.log(clipboardItem)
