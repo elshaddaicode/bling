@@ -112,6 +112,8 @@ function buscaEstoque(codigoProduto) {
 
 let infosProdutoTable = null;
 
+let dadosProdutoClipboard = null;
+
 /**
  * Busca os dados do produto e monta o modal de informacoes
  * @param {string} codigoProduto 
@@ -219,6 +221,17 @@ function getProdutoData(codigoProduto) {
         </table>
     `
 
+    dadosProdutoClipboard = `
+        Código:\n
+        ${infoLivro["codigo"]}\n
+        Nome:\n
+        ${infoLivro["nome"]}\n
+        De:\n
+        ${infoLivro["preco"]}\n
+        Por:\n
+        ${infoLivro["precoPromocional"]}\n
+    `
+
     // Info
     $("#info-modal .livro-info").html('');
     $("#info-modal .livro-info").html(infosProdutoTable);
@@ -242,12 +255,9 @@ function getProdutoData(codigoProduto) {
 function copiarHtmlFormatado() {
     if (!navigator.clipboard) {
         console.log('Clipboard não suportado!')
-        return
+        return;
     }
-    const blob = new Blob([infosProdutoTable], { type: "text/html" });
-    const clipboardItem = new window.ClipboardItem({ "text/html": blob });
-    navigator.clipboard.write([clipboardItem]).then(() => {
-        console.log(clipboardItem)
+    navigator.clipboard.write(dadosProdutoClipboard).then(() => {
         console.log("Texto formatado copiado para a área de transferência!");
     }).catch(err => {
         console.error("Erro ao copiar texto formatado: ", err);
