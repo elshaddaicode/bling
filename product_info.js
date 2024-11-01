@@ -222,9 +222,9 @@ function getProdutoData(codigoProduto) {
     `
 
     dadosProdutoClipboard = `
-        Código:\t ${infoLivro["codigo"].trim()}\n
-        Nome:\t ${infoLivro["nome"].trim()}\n
-        De:\t ${infoLivro["preco"].trim()}\n
+        Código:\t ${infoLivro["codigo"].trim()}
+        Nome:\t ${infoLivro["nome"].trim()}
+        De:\t ${infoLivro["preco"].trim()}
         Por:\t ${infoLivro["precoPromocional"].trim()}
     `.trim()
 
