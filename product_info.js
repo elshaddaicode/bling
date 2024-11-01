@@ -237,9 +237,12 @@ function getProdutoData(codigoProduto) {
     $("#info-modal .livro-info").html(infosProdutoTable);
 
     $("#info-modal .modal-footer").html(`
-        <button type="button" onclick="copiarHtmlFormatado()" class="btn btn-primary call-to-action" data-dismiss="modal">
-            Copiar Informações
-        </button>    
+        <button type="button" style="background-color: #0984e3" onclick="copiarHtmlFormatado()" class="btn btn-primary call-to-action" data-dismiss="modal">
+            Copiar Para Email
+        </button>
+        <button type="button" onclick="copiarTextoSimples()" class="btn btn-primary call-to-action" data-dismiss="modal">
+            Copiar Para WhatsApp
+        </button>
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
     `)
 
@@ -255,12 +258,26 @@ function getProdutoData(codigoProduto) {
 function copiarHtmlFormatado() {
     if (!navigator.clipboard) {
         console.log('Clipboard não suportado!')
-        return;
+        return
     }
-    navigator.clipboard.writeText(dadosProdutoClipboard).then(() => {
+    const blob = new Blob([infosProdutoTable], { type: "text/html" });
+    const clipboardItem = new window.ClipboardItem({ "text/html": blob });
+    navigator.clipboard.write([clipboardItem]).then(() => {
         console.log("Texto formatado copiado para a área de transferência!");
     }).catch(err => {
         console.error("Erro ao copiar texto formatado: ", err);
+    });
+}
+
+function copiarTextoSimples() {
+    if (!navigator.clipboard) {
+        console.log('Clipboard não suportado!')
+        return
+    }
+    navigator.clipboard.writeText(dadosProdutoClipboard).then(() => {
+        console.log("Texto simples copiado para a área de transferência!");
+    }).catch(err => {
+        console.error("Erro ao copiar texto simples: ", err);
     });
 }
 
