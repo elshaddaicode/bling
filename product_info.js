@@ -240,10 +240,12 @@ function getProdutoData(codigoProduto) {
     Função que copia as informações do produto para a área de transferência.
 */
 function copiarHtmlFormatado() {
-    console.log("infosProdutoTable " + infosProdutoTable)
+    if (!navigator.clipboard) {
+        console.log('Clipboard não suportado!')
+        return
+    }
     const blob = new Blob([infosProdutoTable], { type: "text/html" });
     const clipboardItem = new window.ClipboardItem({ "text/html": blob });
-    console.log("chamou a fn " + new Date().getTime())
     navigator.clipboard.write([clipboardItem]).then(() => {
         console.log(clipboardItem)
         console.log("Texto formatado copiado para a área de transferência!");
