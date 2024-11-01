@@ -235,7 +235,8 @@ function getProdutoData(codigoProduto) {
         const blob = new Blob([html], { type: "text/html" });
         const clipboardItem = new ClipboardItem({ "text/html": blob });
         navigator.clipboard.write([clipboardItem]).then(() => {
-            alert("Texto formatado copiado para a área de transferência!");
+            console.log(clipboardItem)
+            console.log("Texto formatado copiado para a área de transferência!");
         }).catch(err => {
             console.error("Erro ao copiar texto formatado: ", err);
         });
