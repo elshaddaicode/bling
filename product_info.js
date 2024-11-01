@@ -182,7 +182,7 @@ function getProdutoData(codigoProduto) {
     $("#info-modal .livro-imagem").html('');
     $("#info-modal .livro-imagem").html("<img src='" + infoLivro["imagem"] + "' width='100%'>");
 
-    const infosProdutoTable = `
+    infosProdutoTable = `
         <table class="table table-bordered table-striped table-livro-info">
             <tbody>
                 <tr>
@@ -233,6 +233,8 @@ function getProdutoData(codigoProduto) {
         $("#info-modal").modal("show");
     }, 1000);
 }
+
+let infosProdutoTable = null;
 
 /*
     Função que copia as informações do produto para a área de transferência.
