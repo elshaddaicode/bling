@@ -110,6 +110,8 @@ function buscaEstoque(codigoProduto) {
     });
 }
 
+let infosProdutoTable = null;
+
 /**
  * Busca os dados do produto e monta o modal de informacoes
  * @param {string} codigoProduto 
@@ -234,13 +236,12 @@ function getProdutoData(codigoProduto) {
     }, 1000);
 }
 
-let infosProdutoTable = null;
-
 /*
     Função que copia as informações do produto para a área de transferência.
 */
-function copiarHtmlFormatado(html = infosProdutoTable) {
-    const blob = new Blob([html], { type: "text/html" });
+function copiarHtmlFormatado() {
+    console.log("infosProdutoTable " + infosProdutoTable)
+    const blob = new Blob([infosProdutoTable], { type: "text/html" });
     const clipboardItem = new ClipboardItem({ "text/html": blob });
     console.log("chamou a fn " + new Date().getTime())
     navigator.clipboard.write([clipboardItem]).then(() => {
