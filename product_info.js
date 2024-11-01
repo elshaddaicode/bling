@@ -222,7 +222,7 @@ function getProdutoData(codigoProduto) {
     $("#info-modal .livro-info").html(infosProdutoTable);
 
     $("#info-modal .modal-footer").html(`
-        <button type="button" onclick="${copiarHtmlFormatado(infosProdutoTable)}" class="btn btn-primary call-to-action" data-dismiss="modal">
+        <button type="button" onclick="${copiarHtmlFormatado()}" class="btn btn-primary call-to-action" data-dismiss="modal">
             Copiar Informações
         </button>    
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
@@ -231,7 +231,7 @@ function getProdutoData(codigoProduto) {
     /*
         Função que copia as informações do produto para a área de transferência.
     */
-    function copiarHtmlFormatado(html) {
+    function copiarHtmlFormatado(html = infosProdutoTable) {
         const blob = new Blob([html], { type: "text/html" });
         const clipboardItem = new ClipboardItem({ "text/html": blob });
         navigator.clipboard.write([clipboardItem]).then(() => {
