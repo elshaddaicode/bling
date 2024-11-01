@@ -229,6 +229,8 @@ function getProdutoData(codigoProduto) {
         Desconto: ${infoLivro["desconto"]}%
     `.trim().replaceAll(/\t/gmi, "")
 
+    console.log(dadosProdutoClipboard)
+
     // Info
     $("#info-modal .livro-info").html('');
     $("#info-modal .livro-info").html(infosProdutoTable);
