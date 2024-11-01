@@ -240,6 +240,7 @@ function getProdutoData(codigoProduto) {
 function copiarHtmlFormatado(html = infosProdutoTable) {
     const blob = new Blob([html], { type: "text/html" });
     const clipboardItem = new ClipboardItem({ "text/html": blob });
+    console.log("chamou a fn")
     navigator.clipboard.write([clipboardItem]).then(() => {
         console.log(clipboardItem)
         console.log("Texto formatado copiado para a área de transferência!");
