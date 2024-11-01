@@ -110,8 +110,6 @@ function buscaEstoque(codigoProduto) {
     });
 }
 
-let infosProdutoTable = null;
-
 let dadosProdutoClipboard = null;
 
 /**
@@ -186,7 +184,12 @@ function getProdutoData(codigoProduto) {
     $("#info-modal .livro-imagem").html('');
     $("#info-modal .livro-imagem").html("<img src='" + infoLivro["imagem"] + "' width='100%'>");
 
-    infosProdutoTable = `
+    dadosProdutoClipboard = `Código: ${infoLivro["codigo"].trim()}\nNome: ${infoLivro["nome"].trim()}\nDe: ${infoLivro["preco"].trim()}\nPor: ${infoLivro["precoPromocional"].trim()}\nDesconto: ${infoLivro["desconto"]}%
+    `.trim().replaceAll(/\t/gmi, "")
+
+    // Info
+    $("#info-modal .livro-info").html('');
+    $("#info-modal .livro-info").html(`
         <table class="table table-bordered table-striped table-livro-info">
             <tbody>
                 <tr>
@@ -219,23 +222,11 @@ function getProdutoData(codigoProduto) {
                 </tr>
             </tbody>
         </table>
-    `
-
-    dadosProdutoClipboard = `Código: ${infoLivro["codigo"].trim()}\nNome: ${infoLivro["nome"].trim()}\nDe: ${infoLivro["preco"].trim()}\nPor: ${infoLivro["precoPromocional"].trim()}\nDesconto: ${infoLivro["desconto"]}%
-    `.trim().replaceAll(/\t/gmi, "")
-
-    console.log(dadosProdutoClipboard)
-
-    // Info
-    $("#info-modal .livro-info").html('');
-    $("#info-modal .livro-info").html(infosProdutoTable);
+    `);
 
     $("#info-modal .modal-footer").html(`
-        <button type="button" style="background-color: #0984e3" onclick="copiarHtmlFormatado()" class="btn btn-primary call-to-action" data-dismiss="modal">
-            Copiar Para Email
-        </button>
         <button type="button" onclick="copiarTextoSimples()" class="btn btn-primary call-to-action" data-dismiss="modal">
-            Copiar Para WhatsApp
+            Copiar Informações
         </button>
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
     `)
@@ -244,23 +235,6 @@ function getProdutoData(codigoProduto) {
         $("#elshaddai-loading").hide();
         $("#info-modal").modal("show");
     }, 1000);
-}
-
-/*
-    Função que copia as informações do produto para a área de transferência.
-*/
-function copiarHtmlFormatado() {
-    if (!navigator.clipboard) {
-        console.log('Clipboard não suportado!')
-        return
-    }
-    const blob = new Blob([infosProdutoTable], { type: "text/html" });
-    const clipboardItem = new window.ClipboardItem({ "text/html": blob });
-    navigator.clipboard.write([clipboardItem]).then(() => {
-        console.log("Texto formatado copiado para a área de transferência!");
-    }).catch(err => {
-        console.error("Erro ao copiar texto formatado: ", err);
-    });
 }
 
 function copiarTextoSimples() {

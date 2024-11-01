@@ -115,6 +115,8 @@ function buscaEstoque(codigoProduto) {
     });
 }
 
+let dadosProdutoClipboard = null;
+
 /**
  * Busca os dados do produto e monta o modal de informacoes
  * @param {string} codigoProduto 
@@ -224,6 +226,16 @@ function getProdutoData(codigoProduto) {
         </table>
     `);
 
+    dadosProdutoClipboard = `Código: ${infoLivro["codigo"].trim()}\nNome: ${infoLivro["nome"].trim()}\nDe: ${infoLivro["preco"].trim()}\nPor: ${infoLivro["precoPromocional"].trim()}\nDesconto: ${infoLivro["desconto"]}%
+    `.trim().replaceAll(/\t/gmi, "")
+
+    $("#info-modal .modal-footer").html(`
+        <button type="button" onclick="copiarTextoSimples()" class="btn btn-primary call-to-action" data-dismiss="modal">
+            Copiar Informações
+        </button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+    `)
+
     setTimeout(function () {
         $("#elshaddai-loading").hide();
         $("#info-modal").modal("show");
@@ -282,6 +294,18 @@ function createModal() {
     }
 }
 createModal();
+
+function copiarTextoSimples() {
+    if (!navigator.clipboard) {
+        console.log('Clipboard não suportado!')
+        return
+    }
+    navigator.clipboard.writeText(dadosProdutoClipboard).then(() => {
+        console.log("Texto simples copiado para a área de transferência!");
+    }).catch(err => {
+        console.error("Erro ao copiar texto simples: ", err);
+    });
+}
 
 /**
  * Criacao do botao
