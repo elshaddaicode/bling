@@ -201,11 +201,11 @@ function getProdutoData(codigoProduto) {
                     <td>` + infoLivro["nome"] + `</td>
                 </tr>
                 <tr>
-                    <td>Preço capa</td>
+                    <td>De</td>
                     <td>R$ ` + infoLivro["preco"] + `</td>
                 </tr>
                 <tr>
-                    <td>Preço desc.</td>
+                    <td>Por</td>
                     <td>R$ ` + infoLivro["precoPromocional"] + `</td>
                 </tr>
                 <tr>
